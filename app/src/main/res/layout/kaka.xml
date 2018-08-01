@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="86dp"
+        android:layout_height="38dp"
+        android:text="UserName"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="68dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="177dp"
+        tools:layout_editor_absoluteY="59dp">
+
+    </android.support.design.widget.TextInputLayout>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="127dp"
+        tools:layout_editor_absoluteY="143dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="127dp"
+        tools:layout_editor_absoluteY="59dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="198dp"
+            android:layout_height="43dp"
+
+            android:hint="hint" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="89dp"
+        android:layout_height="41dp"
+        android:text="Password"
+        tools:layout_editor_absoluteX="34dp"
+        tools:layout_editor_absoluteY="143dp" />
+</android.support.constraint.ConstraintLayout>

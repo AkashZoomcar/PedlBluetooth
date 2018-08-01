@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="15dp">
+
+    <EditText
+        android:id="@+id/etMacAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="C4:A8:28:07:7F:7A"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/butConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/butUnlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unlock"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/butLockStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lock Status"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/butInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Info"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/butDissconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnect"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tvScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Logs"
+        android:padding="5dp"
+        />
+
+</LinearLayout>
