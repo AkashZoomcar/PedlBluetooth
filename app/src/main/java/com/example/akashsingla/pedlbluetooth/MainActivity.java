@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button butLockStatus;
     private Button butInfo;
     private Button butDissconnect;
+    private Button butNext;
     private TextView tvScreen;
     private EditText etMacAddress;
 
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private BluetoothGatt gatt;
     private byte[] accessToken;
-    private String ACTIONABLE_MAC_ADDRESS = "C4  A8  28  07  7F  7A";
+//    private String ACTIONABLE_MAC_ADDRESS = "C4  A8  28  07  7F  7A";
+    private String ACTIONABLE_MAC_ADDRESS = "C4  A8  28  05  B0  67";
     private static final int KEY_MAC_ADDRESS = 513;
     private static final UUID writableUUID = UUID.fromString("000036f5-0000-1000-8000-00805f9b34fb");
     private static final UUID readableUUID = UUID.fromString("000036f6-0000-1000-8000-00805f9b34fb");
@@ -95,6 +97,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+
+
+        BluetoothManager m1 = bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+
+        System.out.println("m1 = " + m1);
+        System.out.println("manager = " + bluetoothManager);
+
         mBluetoothAdapter = bluetoothManager.getAdapter();
         scanner = mBluetoothAdapter.getBluetoothLeScanner();
         init();
@@ -139,12 +149,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         butDissconnect = findViewById(R.id.butDissconnect);
         tvScreen = findViewById(R.id.tvScreen);
         etMacAddress = findViewById(R.id.etMacAddress);
+        butNext = findViewById(R.id.butNext);
 
         butConnect.setOnClickListener(this);
+        butConnect.callOnClick();
         butUnlock.setOnClickListener(this);
         butLockStatus.setOnClickListener(this);
         butInfo.setOnClickListener(this);
         butDissconnect.setOnClickListener(this);
+        butNext.setOnClickListener(this);
 
     }
 
@@ -156,12 +169,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String str = etMacAddress.getText().toString();
             String macy = "C4A828077F7A";
 
-            if(str != null)
-            {
+            if (str != null) {
                 String mac[] = str.split(":");
                 macy = "";
-                for(String m : mac)
-                {
+                for (String m : mac) {
                     macy = macy + m;
                 }
             }
@@ -337,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     System.out.println("hello  = " + d.getAddress());
                 }
 
-                if(MainActivity.this.gatt != null) {
+                if (MainActivity.this.gatt != null) {
                     MainActivity.this.gatt.disconnect();
                     MainActivity.this.gatt.close();
                     MainActivity.this.gatt = null;
@@ -456,6 +467,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 accessToken[3] = b4;
 
                 setScreenText("Connected Successfully.");
+                unlockDevice(gatt);
 
             } else if (str.startsWith(RESPONSE_PREFIX_UNLOCK)) {
                 String frame[] = str.split("  ");
@@ -482,8 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     setScreenText("Lock Status Failure");
                 }
-            }
-            else if (str.startsWith(RESPONSE_PREFIX_DEVICE_INFO)) {
+            } else if (str.startsWith(RESPONSE_PREFIX_DEVICE_INFO)) {
 
                 System.out.println("Response device info = " + str);
                 setScreenText(str);
@@ -505,8 +516,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scanner = mBluetoothAdapter.getBluetoothLeScanner();
 //            scanLeDevice(true);
             validateLocation();
-        }
-        else if (REQUEST_CODE_LOCATION_COURSE == requestCode) {
+        } else if (REQUEST_CODE_LOCATION_COURSE == requestCode) {
 
             scanLeDevice(true);
         }
@@ -555,6 +565,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.butLockStatus:
                 lockStatus();
+                break;
+
+            case R.id.butNext:
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
                 break;
 
 
@@ -734,14 +749,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         byte b3 = hexStringToByteArray(lockStatusStr[2])[0];
         byte b4 = hexStringToByteArray(lockStatusStr[3])[0];
 
-        byte lockStatus[] = {b1, b2, b3, b4, accessToken[0], accessToken[1], accessToken[2], accessToken[3], 0x00, 0x00, 0x00 , 0x00, 0x00, 0x00, 0x00, 0x00};
+        byte lockStatus[] = {b1, b2, b3, b4, accessToken[0], accessToken[1], accessToken[2], accessToken[3], 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         System.out.println("lock Status hex " + getHex(lockStatus));
         BluetoothGattCharacteristic ch = gatt.getService(serviceUUID).getCharacteristic(writableUUID);
         ch.setValue(encrypt(lockStatus, key1));
         gatt.writeCharacteristic(ch);
         System.out.println("write lockStatus");
     }
-
 
 
 //    private void getyyy(BluetoothGatt gatt) {
@@ -830,4 +844,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        disconnectGatt();
+    }
 }
